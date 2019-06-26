@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using App.Constants;
 using App.Entities;
 using App.Exceptions;
 using App.Extensions;
@@ -7,11 +8,15 @@ using App.Interfaces;
 
 namespace App.Controllers
 {
-    public class SignController : ISignController
+    public class SignController
     {
         private readonly ISignService _signService;
         
-        private readonly List<string> _commands = new List<string>{"in", "up"};
+        private readonly List<string> _commands = new List<string>{
+            SignCommands.SignIn, 
+            SignCommands.SignUp
+        };
+        
         public User User { get; set; }
 
         public SignController(ISignService signService)
@@ -29,9 +34,9 @@ namespace App.Controllers
                     Console.WriteLine("Invalid command. Please try again");
                     continue;
                 }
-                if (command == "in")
+                if (command == SignCommands.SignIn)
                     SignIn();
-                else if (command == "up") SignUp();
+                else if (command == SignCommands.SignUp) SignUp();
             }
         }
 

@@ -22,12 +22,11 @@ namespace App
                 .AddSingleton<INoteRepository, LocalNoteRepository>()
                 .AddSingleton<ISignService, SignService>()
                 .AddSingleton<INoteService, NoteService>()
-                .AddScoped<ISignController, SignController>()
-                .AddScoped<INoteController, NoteController>()
+                .AddScoped<SignController>()
+                .AddScoped<NoteController>()
                 .AddScoped<AppController>();
             
             ServiceProvider = containerBuilder.BuildServiceProvider();
-
         }
         
         static void Main(string[] args)

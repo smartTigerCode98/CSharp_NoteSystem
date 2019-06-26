@@ -4,11 +4,11 @@ namespace App.Controllers
 {
     public class AppController
     {
-        private readonly ISignController _signController;
+        private readonly SignController _signController;
 
-        private readonly INoteController _noteController;
+        private readonly NoteController _noteController;
 
-        public AppController(ISignController signController, INoteController noteController)
+        public AppController(SignController signController, NoteController noteController)
         {
             _signController = signController;
             _noteController = noteController;

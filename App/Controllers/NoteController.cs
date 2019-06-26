@@ -1,17 +1,22 @@
 using System;
 using System.Collections.Generic;
+using App.Constants;
 using App.Entities;
 using App.Interfaces;
 
 namespace App.Controllers
 {
-    public class NoteController : INoteController
+    public class NoteController
     {
         private readonly INoteService _noteService;
         
         public User User { get; set; }
         
-        private readonly List<string> _commands = new List<string>{"show", "create", "update", "delete"};
+        private readonly List<string> _commands = new List<string>
+        {
+            NoteCommands.Create, NoteCommands.Show,
+            NoteCommands.Update, NoteCommands.Delete
+        };
 
         public NoteController(INoteService noteService)
         {
@@ -20,9 +25,11 @@ namespace App.Controllers
         
         public void Run()
         {
+            var commandsListString = string.Join(",", _commands.ToArray());
+
             while (true)
             {
-                var command = RequestPrompt("Available commands[show, create, update, delete]");
+                var command = RequestPrompt($"Available commands[{commandsListString}]");
                 if (!_commands.Contains(command))
                 {
                     Console.WriteLine("Invalid command. Please try again");
@@ -31,25 +38,25 @@ namespace App.Controllers
 
                 switch (command)
                 {
-                    case "show":
+                    case NoteCommands.Show:
                     {
                         ShowAll();
                         break;
                     }
 
-                    case "create":
+                    case NoteCommands.Create:
                     {
                         Create();
                         break;
                     }
 
-                    case "update":
+                    case NoteCommands.Update:
                     {
                         Update();
                         break;
                     }
 
-                    case "delete":
+                    case NoteCommands.Delete:
                     {
                         Delete();
                         break;
