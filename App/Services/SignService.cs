@@ -10,36 +10,22 @@ namespace App.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
-        private readonly IEmailValidator _emailValidator;
-        private readonly IPasswordValidator _passwordValidator;
         
-        public SignService(IUserRepository userRepository, IPasswordHasher passwordHasher, 
-            IEmailValidator emailValidator, IPasswordValidator passwordValidator)
+        public SignService(IUserRepository userRepository, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
-            _emailValidator = emailValidator;
-            _passwordValidator = passwordValidator;
         }
         
         public User SignUp(string name, string email, string password)
         {
-            if (!_emailValidator.Validate(email))
-            {
-                throw new InvalidEmailException(email);
-            }
-
-            if (!_passwordValidator.Validate(password))
-            {
-                throw new InvalidPasswordException(password);
-            }
             
             if (_userRepository.EmailIsAlreadyUse(email))
             {
                 throw new UserWithEmailAlreadyExists(email);
             }
             
-            var user = new User(name, email, _passwordHasher.Hashing(password));
+            var user = new User(name, email, _passwordHasher.Hash(password));
 
             _userRepository.AddUser(user);
 
