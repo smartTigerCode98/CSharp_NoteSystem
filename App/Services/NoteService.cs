@@ -19,19 +19,24 @@ namespace App.Services
             return _noteRepository.FindByUser(user);
         }
 
-        public void Create(User user, string content, DateTime created)
+        public Note FindById(int id)
         {
-            _noteRepository.Add(new Note(user, content, created));
+            return _noteRepository.FindById(id);
         }
 
-        public void Update(int id, string content, DateTime updated)
+        public void Create(Note note)
         {
-            _noteRepository.Update(id, content, updated);
+            _noteRepository.Add(note);
         }
 
-        public void Delete(int id)
+        public void Update(Note note)
         {
-            _noteRepository.Delete(id);
+            _noteRepository.Update(note);
+        }
+
+        public void Delete(Note note)
+        {
+            _noteRepository.Delete(note);
         }
     }
 }

@@ -22,6 +22,11 @@ namespace App.Repositories
             return _notes.FindAll(n => n.Owner == user);
         }
 
+        public Note FindById(int id)
+        {
+            return _notes.FirstOrDefault(n => n.Id == id);
+        }
+
         public int Add(Note note)
         {
             _nextId = NextId;
@@ -29,19 +34,16 @@ namespace App.Repositories
             return _nextId;
         }
 
-        public void Update(int id, string content, DateTime updated)
+        public void Update(Note note)
         {
-            _notes.Where(n => n.Id == id).Select(u => 
-                { 
-                    u.Content = content;
-                    u.Created = updated;
-                    return u;
-                }).ToList();
+            var necessaryNote = _notes.First(n => n.Id == note.Id);
+            necessaryNote.Content = note.Content;
+            necessaryNote.Created = note.Created;
         }
 
-        public void Delete(int id)
+        public void Delete(Note note)
         {
-            _notes.RemoveAll(n => n.Id == id);
+            _notes.RemoveAll(n => n.Id == note.Id);
         }
     }
 }
