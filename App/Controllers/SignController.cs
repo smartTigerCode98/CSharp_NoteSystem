@@ -11,6 +11,9 @@ namespace App.Controllers
     public class SignController
     {
         private readonly ISignService _signService;
+        private readonly IEmailValidator _emailValidator;
+        private readonly IPasswordValidator _passwordValidator;
+
         
         private readonly List<string> _commands = new List<string>{
             SignCommands.SignIn, 
@@ -19,9 +22,12 @@ namespace App.Controllers
         
         public User User { get; set; }
 
-        public SignController(ISignService signService)
+        public SignController(ISignService signService, IEmailValidator emailValidator,
+                              IPasswordValidator passwordValidator)
         {
             _signService = signService;
+            _emailValidator = emailValidator;
+            _passwordValidator = passwordValidator;
         }
         
         public void Run()
@@ -34,28 +40,46 @@ namespace App.Controllers
                     Console.WriteLine("Invalid command. Please try again");
                     continue;
                 }
-                if (command == SignCommands.SignIn)
-                    SignIn();
-                else if (command == SignCommands.SignUp) SignUp();
+                switch (command)
+                {
+                    case SignCommands.SignIn:
+                        SignIn();
+                        break;
+                    case SignCommands.SignUp:
+                        try
+                        {
+                            SignUp();   
+                        }
+                        catch (InvalidEmailException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        catch (InvalidPasswordException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
+                        break;
+                }
             }
         }
 
-        public void SignUp()
+        private void SignUp()
         {
             var name = RequestPrompt("Enter name");
             var email = RequestPrompt("Enter email");
             var password = RequestPrompt("Enter password");
+            if (!_emailValidator.Validate(email))
+            {
+                throw new InvalidEmailException(email);
+            }
+
+            if (!_passwordValidator.Validate(password))
+            {
+                throw new InvalidPasswordException(password);
+            }
             try
             { 
                 _signService.SignUp(name, email, password);
-            }
-            catch (InvalidEmailException e)
-            {
-                Console.WriteLine(e.Message);
-            }
-            catch (InvalidPasswordException e)
-            {
-                Console.WriteLine(e.Message);
             }
             catch (UserWithEmailAlreadyExists e)
             {
@@ -63,7 +87,7 @@ namespace App.Controllers
             }
         }
 
-        public void SignIn()
+        private void SignIn()
         {
             var email = RequestPrompt("Enter email");
             var password = RequestPrompt("Enter password");
