@@ -6,6 +6,6 @@ namespace App.Interfaces
     {
         User FindByEmail(string email);
 
-        int AddUser(User user);
+        void AddUser(User user);
     }
 }

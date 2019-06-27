@@ -27,11 +27,10 @@ namespace App.Repositories
             return _notes.FirstOrDefault(n => n.Id == id);
         }
 
-        public int Add(Note note)
+        public void Add(Note note)
         {
             _nextId = NextId;
             _notes.Add(note);
-            return _nextId;
         }
 
         public void Update(Note note)

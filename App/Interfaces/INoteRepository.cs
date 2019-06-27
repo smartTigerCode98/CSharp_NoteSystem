@@ -10,7 +10,7 @@ namespace App.Interfaces
 
         Note FindById(int id);
         
-        int Add(Note note);
+        void Add(Note note);
 
         void Update(Note note);
 
