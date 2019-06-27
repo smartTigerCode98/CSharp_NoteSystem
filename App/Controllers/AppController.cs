@@ -16,7 +16,6 @@ namespace App.Controllers
         public void Run()
         {
             _signController.Run();
-            _noteController.User = _signController.User;
             _noteController.Run();
         }
     }

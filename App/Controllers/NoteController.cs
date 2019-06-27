@@ -9,8 +9,7 @@ namespace App.Controllers
     public class NoteController
     {
         private readonly INoteService _noteService;
-        
-        public User User { get; set; }
+        private readonly IGuardService _guardService;
         
         private readonly List<string> _commands = new List<string>
         {
@@ -18,9 +17,10 @@ namespace App.Controllers
             NoteCommands.Update, NoteCommands.Delete
         };
 
-        public NoteController(INoteService noteService)
+        public NoteController(INoteService noteService, IGuardService guardService)
         {
             _noteService = noteService;
+            _guardService = guardService;
         }
         
         public void Run()
@@ -67,7 +67,7 @@ namespace App.Controllers
 
         private void ShowAll()
         {
-            var notes = _noteService.GetAllByUser(User);
+            var notes = _noteService.GetAllByUser(_guardService.User);
             foreach (var note in notes)
             {
                 Console.WriteLine("");
@@ -81,7 +81,7 @@ namespace App.Controllers
         private void Create()
         {
             var content = RequestPrompt("Input you message");
-            _noteService.Create(new Note(User, content, DateTime.Now));
+            _noteService.Create(new Note(_guardService.User, content, DateTime.Now));
         }
 
         private void Update()
@@ -131,7 +131,7 @@ namespace App.Controllers
         private List<int> GetAllIdForUserNotes()
         {
             var idList = new List<int>();
-            var notes = _noteService.GetAllByUser(User);
+            var notes = _noteService.GetAllByUser(_guardService.User);
             foreach (var note in notes)
             {
                 idList.Add(note.Id);

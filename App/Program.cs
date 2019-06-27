@@ -22,6 +22,7 @@ namespace App
                 .AddSingleton<INoteRepository, LocalNoteRepository>()
                 .AddSingleton<ISignService, SignService>()
                 .AddSingleton<INoteService, NoteService>()
+                .AddSingleton<IGuardService, GuardService>()
                 .AddScoped<SignController>()
                 .AddScoped<NoteController>()
                 .AddScoped<AppController>();
