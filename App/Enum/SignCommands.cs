@@ -1,4 +1,4 @@
-namespace App.Constants
+namespace App.Enum
 {
     public static class SignCommands
     {
