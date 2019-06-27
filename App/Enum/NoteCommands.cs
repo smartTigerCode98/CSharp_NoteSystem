@@ -1,5 +1,8 @@
+using System;
+
 namespace App.Enum
 {
+    [Obsolete]
     public static class NoteCommands
     {
         public const string Show = "show";

@@ -13,12 +13,6 @@ namespace App.Controllers
         private readonly ISignService _signService;
         private readonly IEmailValidator _emailValidator;
         private readonly IPasswordValidator _passwordValidator;
-
-        
-        private readonly List<string> _commands = new List<string>{
-            SignCommands.SignIn, 
-            SignCommands.SignUp
-        };
         
         public User User { get; set; }
 
@@ -34,18 +28,20 @@ namespace App.Controllers
         {
             while (User == null)
             {
-                var command = RequestPrompt("Sign in(in) : Sign up(up)");
-                if (!_commands.Contains(command))
+                var commandString = RequestPrompt("Sign in(in) : Sign up(up)");
+                
+                if (!System.Enum.TryParse(commandString, true, out SignCommand command))
                 {
                     Console.WriteLine("Invalid command. Please try again");
                     continue;
                 }
+                
                 switch (command)
                 {
-                    case SignCommands.SignIn:
+                    case SignCommand.In:
                         SignIn();
                         break;
-                    case SignCommands.SignUp:
+                    case SignCommand.Up:
                         try
                         {
                             SignUp();   
