@@ -7,10 +7,10 @@ namespace App.Interfaces
     public interface INoteRepository
     {
         IList<Note> FindByUser(User user);
+      
+        Note FindById(int id);
         
         void Add(Note note);
-        
-        Note FindById(int id);
 
         void Update(Note note);
 
