@@ -6,7 +6,7 @@ namespace App.Interfaces
 {
     public interface INoteRepository
     {
-        List<Note> FindByUser(User user);
+        IList<Note> FindByUser(User user);
 
         Note FindById(int id);
         

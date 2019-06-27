@@ -17,7 +17,7 @@ namespace App.Repositories
             _notes = new List<Note>();
         }
         
-        public List<Note> FindByUser(User user)
+        public IList<Note> FindByUser(User user)
         {
             return _notes.FindAll(n => n.Owner == user);
         }

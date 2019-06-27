@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using App.Entities;
 using App.Interfaces;
 
@@ -16,7 +17,7 @@ namespace App.Services
         
         public List<Note> GetAllByUser(User user)
         {
-            return _noteRepository.FindByUser(user);
+            return _noteRepository.FindByUser(user).ToList().ToList();
         }
 
         public Note FindById(int id)
