@@ -17,7 +17,7 @@ namespace App.Services
         
         public List<Note> GetAllByUser(User user)
         {
-            return _noteRepository.FindByUser(user).ToList().ToList();
+            return _noteRepository.FindByUser(user).ToList();
         }
 
         public Note FindById(int id)
