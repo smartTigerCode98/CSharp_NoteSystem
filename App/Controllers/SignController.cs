@@ -11,22 +11,23 @@ namespace App.Controllers
     public class SignController
     {
         private readonly ISignService _signService;
+        private readonly IGuardService _guardService;
         private readonly IEmailValidator _emailValidator;
         private readonly IPasswordValidator _passwordValidator;
         
-        public User User { get; set; }
-
-        public SignController(ISignService signService, IEmailValidator emailValidator,
+        public SignController(ISignService signService, IGuardService guardService,
+                              IEmailValidator emailValidator,
                               IPasswordValidator passwordValidator)
         {
             _signService = signService;
+            _guardService = guardService;
             _emailValidator = emailValidator;
             _passwordValidator = passwordValidator;
         }
         
         public void Run()
         {
-            while (User == null)
+            while (!_guardService.SignedIn)
             {
                 var commandString = RequestPrompt("Sign in(in) : Sign up(up)");
                 
@@ -89,7 +90,7 @@ namespace App.Controllers
             var password = RequestPrompt("Enter password");
             try
             {
-                User = _signService.SignIn(email, password);
+                _guardService.StoreUser(_signService.SignIn(email, password));
             }
             catch (UserNotFoundException e)
             {

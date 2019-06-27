@@ -9,9 +9,7 @@ namespace App.Validators
         
         public bool Validate(string data)
         {
-            var regex = new Regex(Pattern);
-            var match = regex.Match(data);
-            return match.Success;
+            return Regex.IsMatch(data, Pattern);
         }
     }
 }
