@@ -29,7 +29,7 @@ namespace App.Repositories
 
         public void Add(Note note)
         {
-            _nextId = NextId;
+            note.Id = NextId;
             _notes.Add(note);
         }
 

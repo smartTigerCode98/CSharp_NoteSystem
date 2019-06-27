@@ -13,7 +13,7 @@ namespace App.Repositories
 
         public LocalUserRepository()
         {
-            _users = new List<User>();
+            _users = new List<User> { new User("Vladik", "qwe@asd.zxc", "TOPKEKLet's go champ!") };
         }
         
         public User FindByEmail(string email)
