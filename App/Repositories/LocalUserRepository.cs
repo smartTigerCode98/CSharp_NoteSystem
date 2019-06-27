@@ -21,11 +21,10 @@ namespace App.Repositories
             return _users.FirstOrDefault(u => u.Email == email);
         }
 
-        public int AddUser(User user)
+        public void AddUser(User user)
         {
             user.Id = NextId;
             _users.Add(user);
-            return _nextId;
         }
     }
 }

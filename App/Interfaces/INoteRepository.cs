@@ -8,7 +8,7 @@ namespace App.Interfaces
     {
         List<Note> FindByUser(User user);
 
-        int Add(Note note);
+        void Add(Note note);
 
         void Update(int id, string content, DateTime updated);
 

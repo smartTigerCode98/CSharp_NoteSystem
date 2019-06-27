@@ -22,11 +22,10 @@ namespace App.Repositories
             return _notes.FindAll(n => n.Owner == user);
         }
 
-        public int Add(Note note)
+        public void Add(Note note)
         {
             _nextId = NextId;
             _notes.Add(note);
-            return _nextId;
         }
 
         public void Update(int id, string content, DateTime updated)
