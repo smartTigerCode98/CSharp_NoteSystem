@@ -1,4 +1,3 @@
-using App.Interfaces;
 
 namespace App.Controllers
 {

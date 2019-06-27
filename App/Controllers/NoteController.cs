@@ -64,8 +64,8 @@ namespace App.Controllers
                 }
             }
         }
-        
-        public void ShowAll()
+
+        private void ShowAll()
         {
             var notes = _noteService.GetAllByUser(User);
             foreach (var note in notes)
@@ -78,39 +78,48 @@ namespace App.Controllers
             }
         }
 
-        public void Create()
+        private void Create()
         {
             var content = RequestPrompt("Input you message");
-            _noteService.Create(User, content, DateTime.Now);
+            _noteService.Create(new Note(User, content, DateTime.Now));
         }
 
-        public void Update()
+        private void Update()
         {
             var idList = GetAllIdForUserNotes();
             var idListString = string.Join(",", idList.ToArray());
             var givenId = -1;
             while (!idList.Contains(givenId) && idList.Count > 0)
             {
-                int.TryParse(RequestPrompt($"Input id for note that will be updated. Available id: {idListString}"),
-                    out givenId);
+                if (!int.TryParse(RequestPrompt($"Input id for note that will be updated. Available id: {idListString}"),
+                    out givenId))
+                {
+                    givenId = -1;
+                }
             }
 
             var newContent = RequestPrompt("Input new content:");
-            _noteService.Update(givenId, newContent, DateTime.Now);
+            var note = _noteService.FindById(givenId);
+            note.Content = newContent;
+            note.Created = DateTime.Now;
+            _noteService.Update(note);
         }
 
-        public void Delete()
+        private void Delete()
         {
             var idList = GetAllIdForUserNotes();
             var idListString = string.Join(",", idList.ToArray());
             var givenId = -1;
             while (!idList.Contains(givenId) && idList.Count > 0)
             {
-                int.TryParse(RequestPrompt($"Input id for note that will be updated. Available id: {idListString}"),
-                    out givenId);
+                if (!int.TryParse(RequestPrompt($"Input id for note that will be updated. Available id: {idListString}"),
+                    out givenId))
+                {
+                    givenId = -1;
+                }
                 
             }
-            _noteService.Delete(givenId);
+            _noteService.Delete(_noteService.FindById(givenId));
         }
         
         private static string RequestPrompt(string prompt)

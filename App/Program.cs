@@ -15,7 +15,7 @@ namespace App
         static Program()
         {
             var containerBuilder = new ServiceCollection();
-            containerBuilder.AddSingleton<IPasswordHasher, HashingService>()
+            containerBuilder.AddSingleton<IPasswordHasher, PasswordHasher>()
                 .AddScoped<IEmailValidator, EmailValidator>()
                 .AddScoped<IPasswordValidator, PasswordValidator>()
                 .AddSingleton<IUserRepository, LocalUserRepository>()

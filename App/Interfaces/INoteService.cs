@@ -7,8 +7,9 @@ namespace App.Interfaces
     public interface INoteService
     {
         List<Note> GetAllByUser(User user);
-        void Create(User user, string content, DateTime created);
-        void Update(int id, string content, DateTime updated);
-        void Delete(int id);
+        Note FindById(int id);
+        void Create(Note note);
+        void Update(Note note);
+        void Delete(Note note);
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using App.Entities;
 using App.Interfaces;
 
@@ -16,22 +17,27 @@ namespace App.Services
         
         public List<Note> GetAllByUser(User user)
         {
-            return _noteRepository.FindByUser(user);
+            return _noteRepository.FindByUser(user).ToList();
         }
 
-        public void Create(User user, string content, DateTime created)
+        public Note FindById(int id)
         {
-            _noteRepository.Add(new Note(user, content, created));
+            return _noteRepository.FindById(id);
         }
 
-        public void Update(int id, string content, DateTime updated)
+        public void Create(Note note)
         {
-            _noteRepository.Update(id, content, updated);
+            _noteRepository.Add(note);
         }
 
-        public void Delete(int id)
+        public void Update(Note note)
         {
-            _noteRepository.Delete(id);
+            _noteRepository.Update(note);
+        }
+
+        public void Delete(Note note)
+        {
+            _noteRepository.Delete(note);
         }
     }
 }

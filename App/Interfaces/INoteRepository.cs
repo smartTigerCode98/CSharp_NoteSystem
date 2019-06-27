@@ -6,12 +6,14 @@ namespace App.Interfaces
 {
     public interface INoteRepository
     {
-        List<Note> FindByUser(User user);
-
+        IList<Note> FindByUser(User user);
+        
         void Add(Note note);
+        
+        Note FindById(int id);
 
-        void Update(int id, string content, DateTime updated);
+        void Update(Note note);
 
-        void Delete(int id);
+        void Delete(Note note);
     }
 }
